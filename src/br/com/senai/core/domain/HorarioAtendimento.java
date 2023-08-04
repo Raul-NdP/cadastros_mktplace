@@ -1,0 +1,91 @@
+package br.com.senai.core.domain;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+public class HorarioAtendimento {
+
+	private int id;
+	private String diaSemana;
+	private LocalDateTime horaAbertura;
+	private LocalDateTime horaFechamento;
+	private Restaurante restaurante;
+	
+	public HorarioAtendimento(String diaSemana, LocalDateTime horaAbertura, LocalDateTime horaFechamento,
+			Restaurante restaurante) {
+		this.diaSemana = diaSemana;
+		this.horaAbertura = horaAbertura;
+		this.horaFechamento = horaFechamento;
+		this.restaurante = restaurante;
+	}
+
+	public HorarioAtendimento(int id, String diaSemana, LocalDateTime horaAbertura, LocalDateTime horaFechamento,
+			Restaurante restaurante) {
+		this(diaSemana, horaAbertura, horaFechamento, restaurante);
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getDiaSemana() {
+		return diaSemana;
+	}
+
+	public void setDiaSemana(String diaSemana) {
+		this.diaSemana = diaSemana;
+	}
+
+	public LocalDateTime getHoraAbertura() {
+		return horaAbertura;
+	}
+
+	public void setHoraAbertura(LocalDateTime horaAbertura) {
+		this.horaAbertura = horaAbertura;
+	}
+
+	public LocalDateTime getHoraFechamento() {
+		return horaFechamento;
+	}
+
+	public void setHoraFechamento(LocalDateTime horaFechamento) {
+		this.horaFechamento = horaFechamento;
+	}
+
+	public Restaurante getRestaurante() {
+		return restaurante;
+	}
+
+	public void setRestaurante(Restaurante restaurante) {
+		this.restaurante = restaurante;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HorarioAtendimento other = (HorarioAtendimento) obj;
+		return id == other.id;
+	}
+
+	@Override
+	public String toString() {
+		return "Dia da Semana - " + diaSemana + "\nHora de Abertura - " + horaAbertura + "\nHora de Fechamento - "
+				+ horaFechamento;
+	}
+	
+}
