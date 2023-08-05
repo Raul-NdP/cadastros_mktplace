@@ -7,6 +7,8 @@ import br.com.senai.core.domain.Restaurante;
 
 public interface DaoRestaurante {
 
+	int contarPor(int idCategoria);
+
 	public void inserir(Restaurante restaurante);
 	
 	public void alterar(Restaurante restaurante);
@@ -16,5 +18,6 @@ public interface DaoRestaurante {
 	public Restaurante buscarPor(int id);
 	
 	public List<Restaurante> listarPor(String nome, Categoria categoria);
+
 	
 }

@@ -14,6 +14,9 @@ import br.com.senai.core.domain.Restaurante;
 
 public class DaoPostgresqlRestaurante implements DaoRestaurante {
 
+	private final String COUNT_BY_CAT = "SELECT Count(*) qtde "
+			+ "FROM restaurantes r "
+			+ "WHERE r.id_categoria = ?";
 	private final String INSERT = "INSERT INTO restaurantes (nome, descricao, cidade, logradouro, "
 			+ "bairro, complemeto, id_categoria) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -39,6 +42,32 @@ public class DaoPostgresqlRestaurante implements DaoRestaurante {
 	
 	public DaoPostgresqlRestaurante() {
 		this.conexao = ManagerDb.getInstance().getConexao();
+	}
+	
+	@Override
+	public int contarPor(int idCategoria) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = conexao.prepareStatement(COUNT_BY_CAT);
+			ps.setInt(1, idCategoria);
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getInt("qtde");
+			}
+			
+			return 0;
+		} catch (Exception e) {
+			throw new RuntimeException("Ocorreu um erro ao contar os restaurantes. "
+					+ "Motivo: " + e.getMessage());
+		} finally {
+			ManagerDb.getInstance().fechar(ps);
+			ManagerDb.getInstance().fechar(rs);
+		}
+		
 	}
 	
 	@Override

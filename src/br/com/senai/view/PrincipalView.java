@@ -5,6 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import br.com.senai.view.categoria.CadastroCategoriaView;
+import br.com.senai.view.categoria.ConsultaCategoriaView;
+import br.com.senai.view.horario.CadastroHorarioView;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -38,6 +43,7 @@ public class PrincipalView extends JFrame {
 	 * Create the frame.
 	 */
 	public PrincipalView() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 420);
 		
@@ -71,7 +77,7 @@ public class PrincipalView extends JFrame {
 		JMenuItem subMenuHorarios = new JMenuItem("Horários");
 		subMenuHorarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GerenciarHorarioView view = new GerenciarHorarioView();
+				CadastroHorarioView view = new CadastroHorarioView();
 				view.setVisible(true);
 			}
 		});

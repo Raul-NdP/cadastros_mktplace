@@ -23,7 +23,7 @@ public class FactoryDao {
 	}
 	
 	public static FactoryDao getIntance() {
-		if (instance != null) {
+		if (instance == null) {
 			return new FactoryDao();
 		}
 		return instance;

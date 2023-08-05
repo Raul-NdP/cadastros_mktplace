@@ -39,7 +39,7 @@ public class RestauranteService {
 			
 			if (isExisteHorarioVinculado) {
 				throw new IllegalArgumentException("Não foi possível excluir o restaurante pois "
-						+ "existem " + quantidadeHorarios + " vinculados ao restaurante");
+						+ "existe(m) " + quantidadeHorarios + " vinculados ao restaurante");
 			}
 			
 			this.daoRestaurante.excluirPor(id);

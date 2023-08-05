@@ -1,4 +1,4 @@
-package br.com.senai.view;
+package br.com.senai.view.restaurante;
 
 import java.awt.EventQueue;
 
@@ -30,6 +30,8 @@ public class ConsultaRestauranteView extends JFrame {
 	 * Create the frame.
 	 */
 	public ConsultaRestauranteView() {
+		setTitle("Gerenciar Restaurantes - Consulta");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
 		contentPane = new JPanel();
