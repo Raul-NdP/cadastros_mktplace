@@ -1,6 +1,8 @@
 package br.com.senai.view.categoria;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,9 +15,6 @@ import javax.swing.border.EmptyBorder;
 
 import br.com.senai.core.domain.Categoria;
 import br.com.senai.core.service.CategoriaService;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class CadastroCategoriaView extends JFrame {
 
@@ -45,13 +44,14 @@ public class CadastroCategoriaView extends JFrame {
 		this.categoriaService = new CategoriaService();
 		
 		JLabel lblNome = new JLabel("Nome");
-		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNome.setBounds(10, 53, 62, 33);
+		lblNome.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNome.setBounds(10, 53, 39, 33);
 		contentPane.add(lblNome);
 		
 		edtNome = new JTextField();
-		edtNome.setBounds(82, 53, 592, 33);
+		edtNome.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		edtNome.setBounds(59, 53, 615, 33);
 		contentPane.add(edtNome);
 		edtNome.setColumns(10);
 		
@@ -63,7 +63,7 @@ public class CadastroCategoriaView extends JFrame {
 				dispose();
 			}
 		});
-		btnPesquisar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnPesquisar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnPesquisar.setBounds(527, 10, 147, 33);
 		contentPane.add(btnPesquisar);
 		
@@ -74,7 +74,7 @@ public class CadastroCategoriaView extends JFrame {
 				categoria = null;
 			}
 		});
-		btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnCancelar.setBounds(527, 96, 147, 33);
 		contentPane.add(btnCancelar);
 		
@@ -94,12 +94,14 @@ public class CadastroCategoriaView extends JFrame {
 					categoriaService.salvar(categoria);
 					JOptionPane.showMessageDialog(contentPane, "Categoria salva com sucesso");
 					
+					edtNome.setText(null);
+					
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(contentPane, ex.getMessage());
 				}
 			}
 		});
-		btnSalvar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnSalvar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnSalvar.setBounds(370, 96, 147, 33);
 		contentPane.add(btnSalvar);
 	}

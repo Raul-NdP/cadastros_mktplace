@@ -51,8 +51,9 @@ public class ConsultaCategoriaView extends JFrame {
 		this.categoriaService = new CategoriaService();
 		
 		edtNome = new JTextField();
+		edtNome.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		edtNome.setColumns(10);
-		edtNome.setBounds(82, 53, 484, 33);
+		edtNome.setBounds(59, 53, 507, 33);
 		contentPane.add(edtNome);
 		
 		JButton btnNovo = new JButton("Novo");
@@ -63,7 +64,7 @@ public class ConsultaCategoriaView extends JFrame {
 				dispose();
 			}
 		});
-		btnNovo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnNovo.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNovo.setBounds(576, 10, 147, 33);
 		contentPane.add(btnNovo);
 		
@@ -81,26 +82,26 @@ public class ConsultaCategoriaView extends JFrame {
 				}
 			}
 		});
-		btnListar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnListar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnListar.setBounds(576, 53, 147, 33);
 		contentPane.add(btnListar);
 		
 		JLabel lblNome = new JLabel("Nome");
-		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNome.setBounds(10, 53, 62, 33);
+		lblNome.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNome.setBounds(10, 53, 39, 33);
 		contentPane.add(lblNome);
 		
 		JLabel lblFiltros = new JLabel("Filtros");
-		lblFiltros.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFiltros.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblFiltros.setBounds(10, 10, 62, 33);
+		lblFiltros.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblFiltros.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblFiltros.setBounds(10, 10, 39, 33);
 		contentPane.add(lblFiltros);
 		
 		JLabel lblCategoriasEncontradas = new JLabel("Categorias encontradas");
-		lblCategoriasEncontradas.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCategoriasEncontradas.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblCategoriasEncontradas.setBounds(10, 111, 210, 33);
+		lblCategoriasEncontradas.setHorizontalAlignment(SwingConstants.LEFT);
+		lblCategoriasEncontradas.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblCategoriasEncontradas.setBounds(10, 111, 153, 33);
 		contentPane.add(lblCategoriasEncontradas);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -148,7 +149,7 @@ public class ConsultaCategoriaView extends JFrame {
 		});
 		btnExcluir.setBounds(163, 15, 147, 33);
 		molduraAcoes.add(btnExcluir);
-		btnExcluir.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnExcluir.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
@@ -174,7 +175,7 @@ public class ConsultaCategoriaView extends JFrame {
 		});
 		btnEditar.setBounds(6, 15, 147, 33);
 		molduraAcoes.add(btnEditar);
-		btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 	}
 	
 	private void configurarColuna(int indice, int largura) {

@@ -1,26 +1,25 @@
 package br.com.senai.view;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import br.com.senai.view.categoria.CadastroCategoriaView;
-import br.com.senai.view.categoria.ConsultaCategoriaView;
 import br.com.senai.view.horario.CadastroHorarioView;
-
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.Closeable;
+import br.com.senai.view.restaurante.ConsultaRestauranteView;
 
 public class PrincipalView extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
@@ -65,7 +64,7 @@ public class PrincipalView extends JFrame {
 		JMenuItem subMenuRestaurantes = new JMenuItem("Restaurantes");
 		subMenuRestaurantes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ConsultaCategoriaView view = new ConsultaCategoriaView();
+				ConsultaRestauranteView view = new ConsultaRestauranteView();
 				view.setVisible(true);
 			}
 		});
