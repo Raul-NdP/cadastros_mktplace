@@ -41,13 +41,6 @@ public class ConsultaRestauranteView extends JFrame {
 	private RestauranteService restauranteService;
 	
 	private CategoriaService categoriaService;
-
-	public void carregarComboCategoria() {
-		List<Categoria> categorias = categoriaService.listarTodos();
-		for(Categoria c : categorias) {
-			this.cbCategoria.addItem(c);			
-		}		
-	}
 	
 	/**
 	 * Create the frame.
@@ -62,6 +55,10 @@ public class ConsultaRestauranteView extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
+		
+		this.restauranteService = new RestauranteService();
+		this.categoriaService = new CategoriaService();
 		
 		JLabel lblFiltros = new JLabel("Filtros");
 		lblFiltros.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -201,6 +198,13 @@ public class ConsultaRestauranteView extends JFrame {
 		btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnEditar.setBounds(6, 15, 147, 33);
 		molduraAcoes.add(btnEditar);
+	}
+	
+	public void carregarComboCategoria() {
+		List<Categoria> categorias = categoriaService.listarTodos();
+		for(Categoria c : categorias) {
+			this.cbCategoria.addItem(c);			
+		}		
 	}
 	
 	private void configurarColuna(int indice, int largura) {

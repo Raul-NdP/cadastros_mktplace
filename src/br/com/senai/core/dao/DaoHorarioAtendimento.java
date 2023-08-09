@@ -17,6 +17,6 @@ public interface DaoHorarioAtendimento {
 	
 	public HorarioAtendimento buscarPor(int id);
 	
-	public List<HorarioAtendimento> listarPor(Restaurante restaurante);
+	public List<HorarioAtendimento> listarPor(String id);
 	
 }

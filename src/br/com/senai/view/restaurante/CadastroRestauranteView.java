@@ -40,13 +40,6 @@ public class CadastroRestauranteView extends JFrame {
 	
 	private CategoriaService categoriaService;
 	
-	public void carregarComboCategoria() {
-		List<Categoria> categorias = categoriaService.listarTodos();
-		for(Categoria c : categorias) {
-			this.cbCategoria.addItem(c);			
-		}		
-	}
-	
 	/**
 	 * Create the frame.
 	 */
@@ -60,6 +53,10 @@ public class CadastroRestauranteView extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
+		
+		this.restauranteService = new RestauranteService();
+		this.categoriaService = new CategoriaService();
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
@@ -173,7 +170,7 @@ public class CadastroRestauranteView extends JFrame {
 					
 					if (restaurante == null) {
 						
-						Restaurante restaurante = new Restaurante(nome, descricao, endereco, categoria);
+						restaurante = new Restaurante(nome, descricao, endereco, categoria);
 						
 					} else {
 						
@@ -194,8 +191,6 @@ public class CadastroRestauranteView extends JFrame {
 					edtCidade.setText(null);
 					edtComplemento.setText(null);
 					cbCategoria.setSelectedIndex(0);
-					endereco = null;
-					categoria = null;
 					restaurante = null;
 					
 				} catch (Exception ex) {
@@ -232,6 +227,13 @@ public class CadastroRestauranteView extends JFrame {
 		this.carregarComboCategoria();
 	}
 	
+	public void carregarComboCategoria() {
+		List<Categoria> categorias = categoriaService.listarTodos();
+		for(Categoria c : categorias) {
+			this.cbCategoria.addItem(c);			
+		}		
+	}
+	
 	public void setRestaurante(Restaurante restaurante) {
 		
 		this.restaurante = restaurante;
@@ -241,7 +243,7 @@ public class CadastroRestauranteView extends JFrame {
 		this.edtBairro.setText(restaurante.getEndereco().getBairro());
 		this.edtLogradouro.setText(restaurante.getEndereco().getLogradouro());
 		this.edtComplemento.setText(restaurante.getEndereco().getComplemento());
-		this.cbCategoria.setSelectedItem(restaurante);
+		this.cbCategoria.setSelectedItem(restaurante.getCategoria());
 		
 	}
 }

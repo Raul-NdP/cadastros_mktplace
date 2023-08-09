@@ -4,7 +4,9 @@ import java.util.List;
 
 import br.com.senai.core.dao.DaoHorarioAtendimento;
 import br.com.senai.core.dao.FactoryDao;
+import br.com.senai.core.domain.Categoria;
 import br.com.senai.core.domain.HorarioAtendimento;
+import br.com.senai.core.domain.Restaurante;
 
 public class HorarioAtendimentoService {
 	
@@ -12,6 +14,27 @@ public class HorarioAtendimentoService {
 	
 	public HorarioAtendimentoService() {
 		this.dao = FactoryDao.getIntance().getDaoHorarioAtendimento();
+	}
+	
+	public void salvar(HorarioAtendimento horario) {
+		this.validar(horario);
+		
+		boolean isJaInserido = horario.getId() > 1;
+		if (isJaInserido) {
+			this.dao.alterar(horario);
+		} else {
+			this.dao.inserir(horario);
+		}
+	}
+	
+	public void removerPor(int id) {
+		if (id > 0) {
+			
+			this.dao.excluirPor(id);
+			
+		} else {
+			throw new IllegalArgumentException("O id da categoria deve ser maior que zero");
+		}
 	}
 	
 	public void validar(HorarioAtendimento horarioNovo) {
@@ -29,7 +52,7 @@ public class HorarioAtendimentoService {
 				throw new IllegalArgumentException("O dia da semana é obrigatório");
 			}
 			
-			List<HorarioAtendimento> horariosExistentes = this.dao.listarPor(horarioNovo.getRestaurante());
+			List<HorarioAtendimento> horariosExistentes = this.listarTodos();
 			for (HorarioAtendimento horarioExistente : horariosExistentes) {
 				validarHorario(horarioExistente, horarioNovo);
 			}
@@ -37,6 +60,32 @@ public class HorarioAtendimentoService {
 		} else {
 			throw new NullPointerException("O horário de atendimento não pode ser nulo");
 		}
+	}
+	
+	public HorarioAtendimento buscarPor(int id) {
+		if (id > 0) {
+			HorarioAtendimento horarioEncontrado = this.dao.buscarPor(id);
+			if (horarioEncontrado == null) {
+				throw new IllegalArgumentException("Não foi encontrado horario para o código informado");
+			}
+			return horarioEncontrado;
+		} else {
+			throw new IllegalArgumentException("O id do horario deve ser maior que zero");
+		}
+	}
+	
+	public List<HorarioAtendimento> listarPor(String id) {
+		
+		if (id != null) {
+			return this.dao.listarPor("%" + id + "%");
+		} else {
+			throw new IllegalArgumentException("O id é obrigatório");
+		}
+	
+	}
+	
+	public List<HorarioAtendimento> listarTodos() {
+		return this.dao.listarPor("%%");
 	}
 	
 	public void validarHorario(HorarioAtendimento horarioExistente, HorarioAtendimento horarioNovo) {

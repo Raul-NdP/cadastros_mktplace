@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import br.com.senai.view.categoria.CadastroCategoriaView;
-import br.com.senai.view.horario.CadastroHorarioView;
+import br.com.senai.view.horario.GerenciarHorarioView;
 import br.com.senai.view.restaurante.ConsultaRestauranteView;
 
 public class PrincipalView extends JFrame {
@@ -76,7 +76,7 @@ public class PrincipalView extends JFrame {
 		JMenuItem subMenuHorarios = new JMenuItem("Horários");
 		subMenuHorarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CadastroHorarioView view = new CadastroHorarioView();
+				GerenciarHorarioView view = new GerenciarHorarioView();
 				view.setVisible(true);
 			}
 		});

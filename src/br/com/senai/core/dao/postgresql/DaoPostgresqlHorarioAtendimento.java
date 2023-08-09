@@ -40,7 +40,7 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 			+ "FROM horarios_atendimento h, restaurantes r, categorias c "
 			+ "WHERE h.id_restaurante = r.id "
 			+ "AND r.id_categoria = c.id "
-			+ "AND r.id = ? ";
+			+ "AND r.id = % ? % ";
 	
 	private Connection conexao;
 	
@@ -193,7 +193,7 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 	}
 
 	@Override
-	public List<HorarioAtendimento> listarPor(Restaurante restaurante) {
+	public List<HorarioAtendimento> listarPor(String id) {
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -202,7 +202,7 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 		
 		try {
 			ps = conexao.prepareStatement(SELECT_BY_ID);
-			ps.setInt(1, restaurante.getId());
+			ps.setString(1, id);
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {
