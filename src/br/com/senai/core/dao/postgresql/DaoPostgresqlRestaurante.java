@@ -18,7 +18,7 @@ public class DaoPostgresqlRestaurante implements DaoRestaurante {
 			+ "FROM restaurantes r "
 			+ "WHERE r.id_categoria = ?";
 	private final String INSERT = "INSERT INTO restaurantes (nome, descricao, cidade, logradouro, "
-			+ "bairro, complemeto, id_categoria) "
+			+ "bairro, complemento, id_categoria) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 	private final String UPDATE = "UPDATE restaurantes SET nome = ?, descricao = ?, cidade = ?, "
 			+ "logradouro = ?, bairro = ?, complemento = ?, id_categoria = ? "
@@ -27,15 +27,15 @@ public class DaoPostgresqlRestaurante implements DaoRestaurante {
 	private final String SELECT_BY_ID = 
 			"SELECT r.id AS id_restaurante, r.nome AS nome_restaurante, r.descricao, r.cidade, "
 			+ "r.logradouro, r.bairro, r.complemento, "
-			+ "c.id AS id_categoria, c.nome AS nome_categoria"
+			+ "c.id AS id_categoria, c.nome AS nome_categoria "
 			+ "FROM restaurante r, categorias c "
 			+ "WHERE r.id_categoria = c.id"
 			+ "AND r.id = ?";
 	private final String SELECT_BY_NOME_CATEGORIA =
 			"SELECT r.id AS id_restaurante, r.nome AS nome_restaurante, r.descricao, r.cidade, "
 			+ "r.logradouro, r.bairro, r.complemento, "
-			+ "c.id AS id_categoria, c.nome AS nome_categoria"
-			+ "FROM restaurante r, categorias c "
+			+ "c.id AS id_categoria, c.nome AS nome_categoria "
+			+ "FROM restaurantes r, categorias c "
 			+ "WHERE r.id_categoria = c.id ";
 	
 	private Connection conexao;

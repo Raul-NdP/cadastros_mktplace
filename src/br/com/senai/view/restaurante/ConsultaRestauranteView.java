@@ -34,7 +34,7 @@ public class ConsultaRestauranteView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField edtNome;
 	private JTable tableRestaurantes;
 	private JComboBox<Categoria> cbCategoria;
 	
@@ -72,11 +72,11 @@ public class ConsultaRestauranteView extends JFrame {
 		lblNome.setBounds(10, 54, 39, 33);
 		contentPane.add(lblNome);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField.setColumns(10);
-		textField.setBounds(59, 54, 210, 33);
-		contentPane.add(textField);
+		edtNome = new JTextField();
+		edtNome.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		edtNome.setColumns(10);
+		edtNome.setBounds(59, 54, 210, 33);
+		contentPane.add(edtNome);
 		
 		JButton btnListar = new JButton("Listar");
 		btnListar.addActionListener(new ActionListener() {
@@ -84,7 +84,10 @@ public class ConsultaRestauranteView extends JFrame {
 				
 				try {
 					
-					List<Restaurante> restaurantes = restauranteService.listarPor(getName(), (Categoria) cbCategoria.getSelectedItem());
+					String nome = edtNome.getText();
+					Categoria categoria = (Categoria) cbCategoria.getSelectedItem();
+					
+					List<Restaurante> restaurantes = restauranteService.listarPor(nome, categoria);
 					RestauranteTableModel model = new RestauranteTableModel(restaurantes);
 					tableRestaurantes.setModel(model);
 					
@@ -198,6 +201,8 @@ public class ConsultaRestauranteView extends JFrame {
 		btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnEditar.setBounds(6, 15, 147, 33);
 		molduraAcoes.add(btnEditar);
+		
+		this.carregarComboCategoria();
 	}
 	
 	public void carregarComboCategoria() {

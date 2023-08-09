@@ -243,9 +243,10 @@ public class GerenciarHorarioView extends JFrame {
 		contentPane.add(ftfFechamento);
 		
 		try {
-			MaskFormatter mascara = new MaskFormatter("HH:mm");
-			mascara.install(ftfAbertura);
-			mascara.install(ftfFechamento);
+			MaskFormatter mascara1 = new MaskFormatter("##:##");
+			MaskFormatter mascara2 = new MaskFormatter("##:##");
+			mascara1.install(ftfAbertura);
+			mascara2.install(ftfFechamento);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
