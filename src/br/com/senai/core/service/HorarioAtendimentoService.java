@@ -1,5 +1,7 @@
 package br.com.senai.core.service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import br.com.senai.core.dao.DaoHorarioAtendimento;
@@ -51,6 +53,11 @@ public class HorarioAtendimentoService {
 			if (isDiaSemanaInvalido) {
 				throw new IllegalArgumentException("O dia da semana é obrigatório");
 			}
+			
+			LocalDateTime timeMax = LocalDateTime.of(null, LocalTime.of(24, 59));
+			LocalDateTime timeMin = LocalDateTime.of(null, LocalTime.of(00, 00));
+			
+			boolean isHorariosInvalidos = horarioNovo.getHoraAbertura().isAfter(timeMax);
 			
 			List<HorarioAtendimento> horariosExistentes = this.listarTodos();
 			for (HorarioAtendimento horarioExistente : horariosExistentes) {
