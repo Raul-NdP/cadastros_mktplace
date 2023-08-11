@@ -45,9 +45,9 @@ public class HorarioAtendimentoTableModel extends AbstractTableModel {
 		if (columnIndex == 0) {
 			return horarios.get(rowIndex).getDiaSemana();
 		} else if (columnIndex == 1) {
-			return horarios.get(rowIndex).getHoraAbertura();
+			return horarios.get(rowIndex).getHoraAbertura().toString();
 		} else if (columnIndex == 2) {
-			return horarios.get(rowIndex).getHoraFechamento();
+			return horarios.get(rowIndex).getHoraFechamento().toString();
 		}
 		throw new IllegalArgumentException("Índice inválido");
 	}

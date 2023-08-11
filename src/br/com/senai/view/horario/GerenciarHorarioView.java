@@ -24,12 +24,17 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 
+import br.com.senai.core.domain.Categoria;
 import br.com.senai.core.domain.DiaSemana;
 import br.com.senai.core.domain.HorarioAtendimento;
 import br.com.senai.core.domain.Restaurante;
 import br.com.senai.core.service.HorarioAtendimentoService;
 import br.com.senai.core.service.RestauranteService;
 import br.com.senai.view.componentes.table.HorarioAtendimentoTableModel;
+import br.com.senai.view.componentes.table.RestauranteTableModel;
+
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class GerenciarHorarioView extends JFrame {
 	
@@ -71,6 +76,22 @@ public class GerenciarHorarioView extends JFrame {
 		contentPane.add(lblCategoria);
 		
 		cbRestaurante = new JComboBox<Restaurante>();
+		cbRestaurante.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					
+					Restaurante restaurante = (Restaurante) cbRestaurante.getSelectedItem();
+					
+					List<HorarioAtendimento> restaurantes = horarioService.listarPor(restaurante);
+					HorarioAtendimentoTableModel model = new HorarioAtendimentoTableModel(restaurantes);
+					tableHorarios.setModel(model);
+					tableHorarios.updateUI();
+					
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(contentPane, ex.getMessage());
+				}
+			}
+		});
 		cbRestaurante.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		cbRestaurante.setBounds(104, 11, 245, 33);
 		contentPane.add(cbRestaurante);

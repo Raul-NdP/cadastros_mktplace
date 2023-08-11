@@ -11,7 +11,6 @@ import java.util.List;
 import br.com.senai.core.dao.DaoHorarioAtendimento;
 import br.com.senai.core.dao.ManagerDb;
 import br.com.senai.core.domain.Categoria;
-import br.com.senai.core.domain.DiaSemana;
 import br.com.senai.core.domain.Endereco;
 import br.com.senai.core.domain.HorarioAtendimento;
 import br.com.senai.core.domain.Restaurante;
@@ -29,16 +28,15 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 			+ "hora_fechamento = ?, id_restaurante = ? "
 			+ "WHERE id = ?";
 	private final String DELETE = "DELETE FROM horarios_atendimento WHERE id = ?";
-	private final String SELECT_BY_ID = 
+	private final String SELECT_ALL = 
 			"SELECT h.id AS id_horario, h.dia_semana, h.hora_abertura, "
-			+ "h.hora_fechamento, h.id_restaurante, "
-			+ "r.id AS id_restaurante, r.nome AS nome_restaurante, r.descricao, r.cidade, "
-			+ "r.logradouro, r.bairro, r.complemento, "
-			+ "c.id AS id_categoria, c.nome AS nome_categoria "
-			+ "FROM horarios_atendimento h, restaurantes r, categorias c "
-			+ "WHERE h.id_restaurante = r.id "
-			+ "AND r.id_categoria = c.id "
-			+ "AND h.dia_semana = ?";
+					+ "h.hora_fechamento, h.id_restaurante, "
+					+ "r.id AS id_restaurante, r.nome AS nome_restaurante, r.descricao, r.cidade, "
+					+ "r.logradouro, r.bairro, r.complemento, "
+					+ "c.id AS id_categoria, c.nome AS nome_categoria "
+					+ "FROM horarios_atendimento h, restaurantes r, categorias c "
+					+ "WHERE h.id_restaurante = r.id "
+					+ "AND r.id_categoria = c.id ";
 	
 	private Connection conexao;
 	
@@ -164,7 +162,11 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 		ResultSet rs = null;
 		
 		try {
-			ps = conexao.prepareStatement(SELECT_BY_ID);
+			
+			StringBuilder consulta = new StringBuilder(SELECT_ALL);
+			consulta.append(" AND h.id = ? ");
+			
+			ps = conexao.prepareStatement(consulta.toString());
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 			
@@ -183,7 +185,7 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 	}
 
 	@Override
-	public List<HorarioAtendimento> listarPor(String diaSemana) {
+	public List<HorarioAtendimento> listarPor(Restaurante restaurante) {
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -191,8 +193,12 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 		List<HorarioAtendimento> horarios = new ArrayList<HorarioAtendimento>();
 		
 		try {
-			ps = conexao.prepareStatement(SELECT_BY_ID);
-			ps.setString(1, diaSemana);
+			
+			StringBuilder consulta = new StringBuilder(SELECT_ALL);
+			consulta.append(" AND r.id = ? ");
+			
+			ps = conexao.prepareStatement(consulta.toString());
+			ps.setInt(1, restaurante.getId());
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {
@@ -209,14 +215,40 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 		}
 	}
 	
+	@Override
+	public List<HorarioAtendimento> listarTodos() {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		List<HorarioAtendimento> horarios = new ArrayList<HorarioAtendimento>();
+		
+		try {
+			ps = conexao.prepareStatement(SELECT_ALL);
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				horarios.add(extrairDo(rs));
+			}
+			
+			return horarios;
+		} catch (Exception e) {
+			throw new RuntimeException("Ocorreu um erro ao listar todos os horários de atendimento. "
+					+ "Motivo: " + e.getMessage());
+		} finally {
+			ManagerDb.getInstance().fechar(ps);
+			ManagerDb.getInstance().fechar(rs);
+		}
+	}
+	
 	private HorarioAtendimento extrairDo(ResultSet rs) {
 		
 		try {
 			
 			int idHorarioAtendimento = rs.getInt("id_horario");
 			String diaSemana = rs.getString("dia_semana");
-			LocalTime horarioAbertura = rs.getTime("horario_abertura").toLocalTime();
-			LocalTime horarioFechamento = rs.getTime("horario_fechamento").toLocalTime();
+			LocalTime horarioAbertura = rs.getTime("hora_abertura").toLocalTime();
+			LocalTime horarioFechamento = rs.getTime("hora_fechamento").toLocalTime();
 			
 			int idRestaurante = rs.getInt("id_restaurante");
 			String nomeRestaurante = rs.getString("nome_restaurante");
@@ -236,7 +268,7 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 			return new HorarioAtendimento(idHorarioAtendimento, diaSemana, horarioAbertura, horarioFechamento, restaurante);
 			
 		} catch (Exception e) {
-			throw new RuntimeException("Ocorreu um erro ao extrair o restaurante. "
+			throw new RuntimeException("Ocorreu um erro ao extrair o horário de atendimento. "
 					+ "Motivo: " + e.getMessage());
 		}
 		

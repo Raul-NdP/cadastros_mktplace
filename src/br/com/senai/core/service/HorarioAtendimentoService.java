@@ -5,8 +5,8 @@ import java.util.List;
 
 import br.com.senai.core.dao.DaoHorarioAtendimento;
 import br.com.senai.core.dao.FactoryDao;
-import br.com.senai.core.domain.DiaSemana;
 import br.com.senai.core.domain.HorarioAtendimento;
+import br.com.senai.core.domain.Restaurante;
 
 public class HorarioAtendimentoService {
 	
@@ -62,7 +62,7 @@ public class HorarioAtendimentoService {
 				throw new IllegalArgumentException("Os horários de abertura e fechamento precisam estar entre 00:00 e 23:59");
 			}
 			
-			List<HorarioAtendimento> horariosExistentes = this.listarTodos();
+			List<HorarioAtendimento> horariosExistentes = this.dao.listarTodos();
 			for (HorarioAtendimento horarioExistente : horariosExistentes) {
 				validarHorario(horarioExistente, horarioNovo);
 			}
@@ -101,18 +101,14 @@ public class HorarioAtendimentoService {
 		}
 	}
 	
-	public List<HorarioAtendimento> listarPor(DiaSemana diaSemana) {
+	public List<HorarioAtendimento> listarPor(Restaurante restaurante) {
 		
-		if (diaSemana != null) {
-			return this.dao.listarPor("%" + diaSemana.toString() + "%");
+		if (restaurante != null) {
+			return this.dao.listarPor(restaurante);
 		} else {
 			throw new IllegalArgumentException("O id é obrigatório");
 		}
 	
-	}
-	
-	public List<HorarioAtendimento> listarTodos() {
-		return this.dao.listarPor("%%");
 	}
 	
 }
