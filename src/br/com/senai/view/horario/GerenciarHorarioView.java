@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -30,7 +30,6 @@ import br.com.senai.core.domain.Restaurante;
 import br.com.senai.core.service.HorarioAtendimentoService;
 import br.com.senai.core.service.RestauranteService;
 import br.com.senai.view.componentes.table.HorarioAtendimentoTableModel;
-import br.com.senai.view.componentes.table.RestauranteTableModel;
 
 public class GerenciarHorarioView extends JFrame {
 	
@@ -108,8 +107,8 @@ public class GerenciarHorarioView extends JFrame {
 					String diaSemana = cbDiaSemana.getSelectedItem().toString();
 					
 					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-					LocalDateTime horaAbertura = LocalDateTime.from(dtf.parse(ftfAbertura.getText()));
-					LocalDateTime horaFechamento = LocalDateTime.from(dtf.parse(ftfAbertura.getText()));
+					LocalTime horaAbertura = LocalTime.from(dtf.parse(ftfAbertura.getText()));
+					LocalTime  horaFechamento = LocalTime.from(dtf.parse(ftfAbertura.getText()));
 					
 					if (horario == null) {
 						

@@ -1,17 +1,17 @@
 package br.com.senai.core.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class HorarioAtendimento {
 
 	private int id;
 	private String diaSemana;
-	private LocalDateTime horaAbertura;
-	private LocalDateTime horaFechamento;
+	private LocalTime horaAbertura;
+	private LocalTime horaFechamento;
 	private Restaurante restaurante;
 	
-	public HorarioAtendimento(String diaSemana, LocalDateTime horaAbertura, LocalDateTime horaFechamento,
+	public HorarioAtendimento(String diaSemana, LocalTime horaAbertura, LocalTime horaFechamento,
 			Restaurante restaurante) {
 		this.diaSemana = diaSemana;
 		this.horaAbertura = horaAbertura;
@@ -19,7 +19,7 @@ public class HorarioAtendimento {
 		this.restaurante = restaurante;
 	}
 
-	public HorarioAtendimento(int id, String diaSemana, LocalDateTime horaAbertura, LocalDateTime horaFechamento,
+	public HorarioAtendimento(int id, String diaSemana, LocalTime horaAbertura, LocalTime horaFechamento,
 			Restaurante restaurante) {
 		this(diaSemana, horaAbertura, horaFechamento, restaurante);
 		this.id = id;
@@ -41,19 +41,19 @@ public class HorarioAtendimento {
 		this.diaSemana = diaSemana;
 	}
 
-	public LocalDateTime getHoraAbertura() {
+	public LocalTime getHoraAbertura() {
 		return horaAbertura;
 	}
 
-	public void setHoraAbertura(LocalDateTime horaAbertura) {
+	public void setHoraAbertura(LocalTime horaAbertura) {
 		this.horaAbertura = horaAbertura;
 	}
 
-	public LocalDateTime getHoraFechamento() {
+	public LocalTime getHoraFechamento() {
 		return horaFechamento;
 	}
 
-	public void setHoraFechamento(LocalDateTime horaFechamento) {
+	public void setHoraFechamento(LocalTime horaFechamento) {
 		this.horaFechamento = horaFechamento;
 	}
 

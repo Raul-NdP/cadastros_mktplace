@@ -3,17 +3,15 @@ package br.com.senai.core.dao.postgresql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.naming.spi.DirStateFactory.Result;
 
 import br.com.senai.core.dao.DaoHorarioAtendimento;
 import br.com.senai.core.dao.ManagerDb;
 import br.com.senai.core.domain.Categoria;
+import br.com.senai.core.domain.DiaSemana;
 import br.com.senai.core.domain.Endereco;
 import br.com.senai.core.domain.HorarioAtendimento;
 import br.com.senai.core.domain.Restaurante;
@@ -33,14 +31,14 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 	private final String DELETE = "DELETE FROM horarios_atendimento WHERE id = ?";
 	private final String SELECT_BY_ID = 
 			"SELECT h.id AS id_horario, h.dia_semana, h.hora_abertura, "
-			+ "h.hora_fechamento, h.id_restaurante "
+			+ "h.hora_fechamento, h.id_restaurante, "
 			+ "r.id AS id_restaurante, r.nome AS nome_restaurante, r.descricao, r.cidade, "
 			+ "r.logradouro, r.bairro, r.complemento, "
 			+ "c.id AS id_categoria, c.nome AS nome_categoria "
 			+ "FROM horarios_atendimento h, restaurantes r, categorias c "
 			+ "WHERE h.id_restaurante = r.id "
 			+ "AND r.id_categoria = c.id "
-			+ "AND r.id = % ? % ";
+			+ "AND h.dia_semana = ?";
 	
 	private Connection conexao;
 	
@@ -77,19 +75,14 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 	
 	@Override
 	public void inserir(HorarioAtendimento horarioAtendimento) {
-
-		LocalDate localDate = LocalDate.now();
-		
-		Timestamp timestampHoraAbertura = Timestamp.valueOf(horarioAtendimento.getHoraAbertura());
-		Timestamp timestampHoraFechamento = Timestamp.valueOf(horarioAtendimento.getHoraFechamento());
 		
 		PreparedStatement ps = null;
 		
 		try {
 			ps = conexao.prepareStatement(INSERT);
 			ps.setString(1, horarioAtendimento.getDiaSemana());
-			ps.setTimestamp(2, timestampHoraAbertura);
-			ps.setTimestamp(3, timestampHoraFechamento);
+			ps.setTime(2, Time.valueOf(horarioAtendimento.getHoraAbertura()));
+			ps.setTime(3, Time.valueOf(horarioAtendimento.getHoraFechamento()));
 			ps.setInt(4, horarioAtendimento.getRestaurante().getId());
 			ps.execute();
 		} catch (Exception e) {
@@ -104,9 +97,6 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 	@Override
 	public void alterar(HorarioAtendimento horarioAtendimento) {
 		
-		Timestamp timestampHoraAbertura = Timestamp.valueOf(horarioAtendimento.getHoraAbertura());
-		Timestamp timestampHoraFechamento = Timestamp.valueOf(horarioAtendimento.getHoraFechamento());
-		
 		PreparedStatement ps = null;
 		
 		try {
@@ -114,8 +104,8 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 			
 			ps = conexao.prepareStatement(UPDATE);
 			ps.setString(1, horarioAtendimento.getDiaSemana());
-			ps.setTimestamp(2, timestampHoraAbertura);
-			ps.setTimestamp(3, timestampHoraFechamento);
+			ps.setTime(2, Time.valueOf(horarioAtendimento.getHoraAbertura()));
+			ps.setTime(3, Time.valueOf(horarioAtendimento.getHoraFechamento()));
 			ps.setInt(4, horarioAtendimento.getRestaurante().getId());
 			ps.setInt(5, horarioAtendimento.getId());
 			ps.execute();
@@ -193,7 +183,7 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 	}
 
 	@Override
-	public List<HorarioAtendimento> listarPor(String id) {
+	public List<HorarioAtendimento> listarPor(String diaSemana) {
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -202,7 +192,7 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 		
 		try {
 			ps = conexao.prepareStatement(SELECT_BY_ID);
-			ps.setString(1, id);
+			ps.setString(1, diaSemana);
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {
@@ -211,7 +201,7 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 			
 			return horarios;
 		} catch (Exception e) {
-			throw new RuntimeException("Ocorreu um erro ao listar os horário de atendimento. "
+			throw new RuntimeException("Ocorreu um erro ao listar os horários de atendimento. "
 					+ "Motivo: " + e.getMessage());
 		} finally {
 			ManagerDb.getInstance().fechar(ps);
@@ -225,8 +215,8 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 			
 			int idHorarioAtendimento = rs.getInt("id_horario");
 			String diaSemana = rs.getString("dia_semana");
-			LocalDateTime horarioAbertura = rs.getTimestamp("horario_abertura").toLocalDateTime();
-			LocalDateTime horarioFechamento = rs.getTimestamp("horario_fechamento").toLocalDateTime();
+			LocalTime horarioAbertura = rs.getTime("horario_abertura").toLocalTime();
+			LocalTime horarioFechamento = rs.getTime("horario_fechamento").toLocalTime();
 			
 			int idRestaurante = rs.getInt("id_restaurante");
 			String nomeRestaurante = rs.getString("nome_restaurante");

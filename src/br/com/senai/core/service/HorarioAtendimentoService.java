@@ -1,14 +1,12 @@
 package br.com.senai.core.service;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
 import br.com.senai.core.dao.DaoHorarioAtendimento;
 import br.com.senai.core.dao.FactoryDao;
-import br.com.senai.core.domain.Categoria;
+import br.com.senai.core.domain.DiaSemana;
 import br.com.senai.core.domain.HorarioAtendimento;
-import br.com.senai.core.domain.Restaurante;
 
 public class HorarioAtendimentoService {
 	
@@ -54,10 +52,15 @@ public class HorarioAtendimentoService {
 				throw new IllegalArgumentException("O dia da semana é obrigatório");
 			}
 			
-			LocalDateTime timeMax = LocalDateTime.of(null, LocalTime.of(24, 59));
-			LocalDateTime timeMin = LocalDateTime.of(null, LocalTime.of(00, 00));
+			LocalTime tempoMax = LocalTime.of(23, 59);
+			LocalTime tempoMin = LocalTime.of(00, 00);
 			
-			boolean isHorariosInvalidos = horarioNovo.getHoraAbertura().isAfter(timeMax);
+			boolean isHorariosInvalidos = (horarioNovo.getHoraAbertura().isAfter(tempoMax) || horarioNovo.getHoraAbertura().isBefore(tempoMin))
+					|| (horarioNovo.getHoraFechamento().isAfter(tempoMax) || horarioNovo.getHoraFechamento().isBefore(tempoMin));
+			
+			if (isHorariosInvalidos) {
+				throw new IllegalArgumentException("Os horários de abertura e fechamento precisam estar entre 00:00 e 23:59");
+			}
 			
 			List<HorarioAtendimento> horariosExistentes = this.listarTodos();
 			for (HorarioAtendimento horarioExistente : horariosExistentes) {
@@ -98,10 +101,10 @@ public class HorarioAtendimentoService {
 		}
 	}
 	
-	public List<HorarioAtendimento> listarPor(String id) {
+	public List<HorarioAtendimento> listarPor(DiaSemana diaSemana) {
 		
-		if (id != null) {
-			return this.dao.listarPor("%" + id + "%");
+		if (diaSemana != null) {
+			return this.dao.listarPor("%" + diaSemana.toString() + "%");
 		} else {
 			throw new IllegalArgumentException("O id é obrigatório");
 		}
