@@ -27,6 +27,7 @@ public class DaoPostgresqlCategoria implements DaoCategoria{
 	
 	public DaoPostgresqlCategoria() {
 		this.conexao = ManagerDb.getInstance().getConexao();
+		System.out.println("Otimização da classe");
 	}
 
 	@Override
