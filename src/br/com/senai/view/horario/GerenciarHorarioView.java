@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -24,17 +26,12 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 
-import br.com.senai.core.domain.Categoria;
 import br.com.senai.core.domain.DiaSemana;
 import br.com.senai.core.domain.HorarioAtendimento;
 import br.com.senai.core.domain.Restaurante;
 import br.com.senai.core.service.HorarioAtendimentoService;
 import br.com.senai.core.service.RestauranteService;
 import br.com.senai.view.componentes.table.HorarioAtendimentoTableModel;
-import br.com.senai.view.componentes.table.RestauranteTableModel;
-
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public class GerenciarHorarioView extends JFrame {
 	
@@ -125,11 +122,11 @@ public class GerenciarHorarioView extends JFrame {
 				try {
 					
 					Restaurante restaurante = (Restaurante) cbRestaurante.getSelectedItem();
-					String diaSemana = cbDiaSemana.getSelectedItem().toString();
+					DiaSemana diaSemana = (DiaSemana) cbDiaSemana.getSelectedItem();
 					
 					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
 					LocalTime horaAbertura = LocalTime.from(dtf.parse(ftfAbertura.getText()));
-					LocalTime  horaFechamento = LocalTime.from(dtf.parse(ftfAbertura.getText()));
+					LocalTime  horaFechamento = LocalTime.from(dtf.parse(ftfFechamento.getText()));
 					
 					if (horario == null) {
 						
@@ -155,7 +152,7 @@ public class GerenciarHorarioView extends JFrame {
 					horario = null;
 					
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(contentPane, ex.getMessage());
+					JOptionPane.showMessageDialog(contentPane, ex.getMessage() + "");
 				}
 			}
 		});
@@ -197,10 +194,11 @@ public class GerenciarHorarioView extends JFrame {
 								horarioService.removerPor(horarioSelecionado.getId());
 								model.removerPor(linhaSelecionada);
 								tableHorarios.updateUI();
-								JOptionPane.showMessageDialog(contentPane, "Restaurante removido com sucesso");
+								JOptionPane.showMessageDialog(contentPane, "Horário removido com sucesso");
 							} catch (Exception ex) {
 								JOptionPane.showMessageDialog(contentPane, ex.getMessage());
 							}
+							tableHorarios.clearSelection();
 						}
 					} else {
 						JOptionPane.showMessageDialog(contentPane, "Selecione uma linha para exclusão");
@@ -226,7 +224,6 @@ public class GerenciarHorarioView extends JFrame {
 						HorarioAtendimento horarioSelecionado = model.getPor(linhaSelecionada);
 						setHorarioAtendimento(horarioSelecionado);
 						tableHorarios.updateUI();
-						JOptionPane.showMessageDialog(contentPane, "Restaurante alterado com sucesso");
 					} else {
 						JOptionPane.showMessageDialog(contentPane, "Selecione uma linha para edição");
 					}
@@ -278,6 +275,7 @@ public class GerenciarHorarioView extends JFrame {
 	
 	public void carregarComboRestaurante() {
 		List<Restaurante> restaurantes = restauranteService.listarTodos();
+		this.cbRestaurante.addItem(null);
 		for(Restaurante r : restaurantes) {
 			this.cbRestaurante.addItem(r);			
 		}		
@@ -285,6 +283,7 @@ public class GerenciarHorarioView extends JFrame {
 
 	public void carregarComboDiaSemana() {
 		DiaSemana[] diasSemana = DiaSemana.values();
+		this.cbDiaSemana.addItem(null);
 		for(DiaSemana d : diasSemana) {
 			this.cbDiaSemana.addItem(d);			
 		}		

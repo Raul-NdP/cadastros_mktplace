@@ -229,6 +229,7 @@ public class CadastroRestauranteView extends JFrame {
 	
 	public void carregarComboCategoria() {
 		List<Categoria> categorias = categoriaService.listarTodos();
+		this.cbCategoria.addItem(null);
 		for(Categoria c : categorias) {
 			this.cbCategoria.addItem(c);			
 		}		

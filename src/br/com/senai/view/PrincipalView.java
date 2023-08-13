@@ -86,7 +86,7 @@ public class PrincipalView extends JFrame {
 		menuSair.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				dispose();
+				System.exit(0);
 			}
 		});
 		menuBar.add(menuSair);

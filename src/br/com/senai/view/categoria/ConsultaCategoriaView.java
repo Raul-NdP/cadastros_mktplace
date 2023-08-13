@@ -137,6 +137,7 @@ public class ConsultaCategoriaView extends JFrame {
 							} catch (Exception ex) {
 								JOptionPane.showMessageDialog(contentPane, ex.getMessage());
 							}
+							tableCategorias.clearSelection();
 						}
 					} else {
 						JOptionPane.showMessageDialog(contentPane, "Selecione uma linha para exclusão");

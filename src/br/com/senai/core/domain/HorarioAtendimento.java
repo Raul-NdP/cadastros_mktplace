@@ -6,12 +6,12 @@ import java.util.Objects;
 public class HorarioAtendimento {
 
 	private int id;
-	private String diaSemana;
+	private DiaSemana diaSemana;
 	private LocalTime horaAbertura;
 	private LocalTime horaFechamento;
 	private Restaurante restaurante;
 	
-	public HorarioAtendimento(String diaSemana, LocalTime horaAbertura, LocalTime horaFechamento,
+	public HorarioAtendimento(DiaSemana diaSemana, LocalTime horaAbertura, LocalTime horaFechamento,
 			Restaurante restaurante) {
 		this.diaSemana = diaSemana;
 		this.horaAbertura = horaAbertura;
@@ -19,7 +19,7 @@ public class HorarioAtendimento {
 		this.restaurante = restaurante;
 	}
 
-	public HorarioAtendimento(int id, String diaSemana, LocalTime horaAbertura, LocalTime horaFechamento,
+	public HorarioAtendimento(int id, DiaSemana diaSemana, LocalTime horaAbertura, LocalTime horaFechamento,
 			Restaurante restaurante) {
 		this(diaSemana, horaAbertura, horaFechamento, restaurante);
 		this.id = id;
@@ -33,11 +33,11 @@ public class HorarioAtendimento {
 		this.id = id;
 	}
 
-	public String getDiaSemana() {
+	public DiaSemana getDiaSemana() {
 		return diaSemana;
 	}
 
-	public void setDiaSemana(String diaSemana) {
+	public void setDiaSemana(DiaSemana diaSemana) {
 		this.diaSemana = diaSemana;
 	}
 

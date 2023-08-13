@@ -162,6 +162,7 @@ public class ConsultaRestauranteView extends JFrame {
 							} catch (Exception ex) {
 								JOptionPane.showMessageDialog(contentPane, ex.getMessage());
 							}
+							tableRestaurantes.clearSelection();
 						}
 					} else {
 						JOptionPane.showMessageDialog(contentPane, "Selecione uma linha para exclusão");

@@ -11,6 +11,7 @@ import java.util.List;
 import br.com.senai.core.dao.DaoHorarioAtendimento;
 import br.com.senai.core.dao.ManagerDb;
 import br.com.senai.core.domain.Categoria;
+import br.com.senai.core.domain.DiaSemana;
 import br.com.senai.core.domain.Endereco;
 import br.com.senai.core.domain.HorarioAtendimento;
 import br.com.senai.core.domain.Restaurante;
@@ -78,7 +79,7 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 		
 		try {
 			ps = conexao.prepareStatement(INSERT);
-			ps.setString(1, horarioAtendimento.getDiaSemana());
+			ps.setString(1, horarioAtendimento.getDiaSemana().name());
 			ps.setTime(2, Time.valueOf(horarioAtendimento.getHoraAbertura()));
 			ps.setTime(3, Time.valueOf(horarioAtendimento.getHoraFechamento()));
 			ps.setInt(4, horarioAtendimento.getRestaurante().getId());
@@ -101,7 +102,7 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 			ManagerDb.getInstance().configurarAutocommitDa(conexao, false);
 			
 			ps = conexao.prepareStatement(UPDATE);
-			ps.setString(1, horarioAtendimento.getDiaSemana());
+			ps.setString(1, horarioAtendimento.getDiaSemana().name());
 			ps.setTime(2, Time.valueOf(horarioAtendimento.getHoraAbertura()));
 			ps.setTime(3, Time.valueOf(horarioAtendimento.getHoraFechamento()));
 			ps.setInt(4, horarioAtendimento.getRestaurante().getId());
@@ -246,7 +247,7 @@ public class DaoPostgresqlHorarioAtendimento implements DaoHorarioAtendimento {
 		try {
 			
 			int idHorarioAtendimento = rs.getInt("id_horario");
-			String diaSemana = rs.getString("dia_semana");
+			DiaSemana diaSemana = DiaSemana.valueOf(rs.getString("dia_semana"));
 			LocalTime horarioAbertura = rs.getTime("hora_abertura").toLocalTime();
 			LocalTime horarioFechamento = rs.getTime("hora_fechamento").toLocalTime();
 			
