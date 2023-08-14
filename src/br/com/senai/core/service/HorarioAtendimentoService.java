@@ -75,35 +75,41 @@ public class HorarioAtendimentoService {
 	public void validarHorario(HorarioAtendimento horarioExistente, HorarioAtendimento horarioNovo) {
 		if (horarioExistente != null && horarioNovo != null) {
 			
-			boolean isHorarioExistenteInvalido = horarioExistente.getHoraAbertura() == null || horarioExistente.getHoraFechamento() == null
-					|| horarioExistente.getHoraAbertura().toString().isBlank() || horarioExistente.getHoraFechamento().toString().isBlank();
+			boolean isHorarioExistenteInvalido = horarioExistente.getHoraAbertura() == null || horarioExistente.getHoraFechamento() == null;
 			
 			if (isHorarioExistenteInvalido) {
 				throw new IllegalArgumentException("O horário existente de abertura e fechamentos não podem ser nulos");
 			}
 			
-			boolean isHorarioNovoInvalido = horarioExistente.getHoraAbertura() == null || horarioExistente.getHoraFechamento() == null
-					|| horarioNovo.getHoraAbertura().toString().isBlank() || horarioNovo.getHoraFechamento().toString().isBlank()
-					|| horarioNovo.getHoraAbertura().toString().equals("  :  ") || horarioNovo.getHoraFechamento().toString().equals("  :  ")
-					|| (horarioNovo.getHoraAbertura().isBefore(horarioExistente.getHoraAbertura()) && horarioNovo.getHoraFechamento().isAfter(horarioExistente.getHoraFechamento()))
-					|| (horarioNovo.getHoraAbertura().isAfter(horarioExistente.getHoraAbertura()) && horarioNovo.getHoraFechamento().isBefore(horarioExistente.getHoraFechamento()));
+			boolean isHorarioNovoInvalido = horarioExistente.getRestaurante().getId() == horarioNovo.getRestaurante().getId()
+					&& horarioExistente.getDiaSemana() == horarioNovo.getDiaSemana()
+					&& (horarioNovo.getHoraAbertura() == null || horarioNovo.getHoraFechamento() == null 
+							|| horarioNovo.getHoraAbertura().toString().isBlank() || horarioNovo.getHoraFechamento().toString().isBlank()
+							|| (horarioNovo.getHoraAbertura().isBefore(horarioExistente.getHoraAbertura()) 
+										&& horarioNovo.getHoraFechamento().isAfter(horarioExistente.getHoraFechamento())));
 			
 			if (isHorarioNovoInvalido) {
 				throw new IllegalArgumentException("Os horários novos de abertura e fechamento não podem "
 						+ "entrar em conflito com outros horários existentes e não podem ser nulos");
 			}
 			
-			boolean isHorarioAberturaNovoInvalido = horarioNovo.getHoraAbertura() == null || horarioNovo.getHoraAbertura().toString().isBlank()
-					|| (horarioNovo.getHoraAbertura().isAfter(horarioExistente.getHoraAbertura()) 
-							&& horarioNovo.getHoraAbertura().isBefore(horarioExistente.getHoraFechamento()));
+			boolean isHorarioAberturaNovoInvalido = horarioExistente.getRestaurante().getId() == horarioNovo.getRestaurante().getId()
+					&& horarioExistente.getDiaSemana() == horarioNovo.getDiaSemana()
+					&& (horarioNovo.getHoraAbertura() == null || horarioNovo.getHoraAbertura().toString().isBlank()
+							|| horarioNovo.getHoraAbertura() == horarioExistente.getHoraAbertura()
+							|| (horarioNovo.getHoraAbertura().isAfter(horarioExistente.getHoraAbertura()) 
+										&& horarioNovo.getHoraAbertura().isBefore(horarioExistente.getHoraFechamento())));
 		
 			if (isHorarioAberturaNovoInvalido) {
 				throw new IllegalArgumentException("O horário novo de abertura não pode entrar em conflito com outros horários existentes");
 			}
 			
-			boolean isHorarioFechamentoNovoInvalido = horarioNovo.getHoraFechamento() == null || horarioNovo.getHoraFechamento().toString().isBlank()
-					|| (horarioNovo.getHoraFechamento().isAfter(horarioExistente.getHoraAbertura()) 
-							&& horarioNovo.getHoraFechamento().isBefore(horarioExistente.getHoraFechamento()));
+			boolean isHorarioFechamentoNovoInvalido = horarioExistente.getRestaurante().getId() == horarioNovo.getRestaurante().getId()
+					&& horarioExistente.getDiaSemana() == horarioNovo.getDiaSemana()
+					&& (horarioNovo.getHoraFechamento() == null || horarioNovo.getHoraFechamento().toString().isBlank()
+							|| horarioNovo.getHoraFechamento() == horarioExistente.getHoraFechamento()
+							|| (horarioNovo.getHoraFechamento().isAfter(horarioExistente.getHoraAbertura()) 
+										&& horarioNovo.getHoraFechamento().isBefore(horarioExistente.getHoraFechamento())));
 			
 			if (isHorarioFechamentoNovoInvalido) {
 				throw new IllegalArgumentException("O horário novo de fechamento não pode entrar em conflito com outros horários existentes");

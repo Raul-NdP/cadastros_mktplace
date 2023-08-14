@@ -76,6 +76,7 @@ public class ConsultaCategoriaView extends JFrame {
 					List<Categoria> categorias = categoriaService.listarPor(edtNome.getText());
 					CategoriaTableModel model = new CategoriaTableModel(categorias);
 					tableCategorias.setModel(model);
+					configurarTabela();
 					
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(contentPane, ex.getMessage());

@@ -2,6 +2,9 @@ package br.com.senai.view.restaurante;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,13 +25,7 @@ import br.com.senai.core.domain.Categoria;
 import br.com.senai.core.domain.Restaurante;
 import br.com.senai.core.service.CategoriaService;
 import br.com.senai.core.service.RestauranteService;
-import br.com.senai.view.categoria.CadastroCategoriaView;
-import br.com.senai.view.componentes.table.CategoriaTableModel;
 import br.com.senai.view.componentes.table.RestauranteTableModel;
-
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
 
 public class ConsultaRestauranteView extends JFrame {
 
@@ -90,6 +87,7 @@ public class ConsultaRestauranteView extends JFrame {
 					List<Restaurante> restaurantes = restauranteService.listarPor(nome, categoria);
 					RestauranteTableModel model = new RestauranteTableModel(restaurantes);
 					tableRestaurantes.setModel(model);
+					configurarTabela();
 					
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(contentPane, ex.getMessage());
@@ -208,6 +206,7 @@ public class ConsultaRestauranteView extends JFrame {
 	
 	public void carregarComboCategoria() {
 		List<Categoria> categorias = categoriaService.listarTodos();
+		this.cbCategoria.addItem(null);;
 		for(Categoria c : categorias) {
 			this.cbCategoria.addItem(c);			
 		}		
@@ -224,11 +223,13 @@ public class ConsultaRestauranteView extends JFrame {
 		
 		final int COLUNA_ID = 0;
 		final int COLUNA_NOME = 1;
+		final int COLUNA_CATEGORIA = 2;
 		
 		this.tableRestaurantes.getTableHeader().setReorderingAllowed(false);
 		this.tableRestaurantes.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.configurarColuna(COLUNA_ID, 90);
 		this.configurarColuna(COLUNA_NOME, 250);
+		this.configurarColuna(COLUNA_CATEGORIA, 250);
 	}
 	
 }
